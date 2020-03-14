@@ -1,0 +1,24 @@
+<h1 class="mb-4">Add Article</h1>
+
+<form method="POST" action="/articles">
+  <div class="form-group">
+    <label class="w-100">
+      Title
+      <input required class="form-control" name="title" />
+    </label>
+  </div>
+  <div class="form-group">
+    <label class="w-100">
+      Description
+      <textarea name="description" class="form-control"></textarea>
+    </label>
+  </div>
+  <div class="form-group">
+    <label class="w-100">
+      Markdown
+      <textarea rows="6" name="markdown" class="form-control"></textarea>
+    </label>
+  </div>
+  <button type="submit" class="btn btn-primary">Save</button>
+  <a href="/" class="btn btn-secondary">Cancel</a>
+</form>
