@@ -1,0 +1,14 @@
+<h1 class="mb-4">Blog Posts</h1>
+<a href="/posts/add" class="btn btn-primary">Add Post</a>
+
+<% posts.forEach(post => {%>
+<div class="card mt-4">
+  <div class="card-body">
+    <h2 class="card-title"><%= post.title %></h2>
+    <div class="card-subtite text-muted mb-2">
+      <%= post.createdAt.toLocaleDateString() %>
+    </div>
+    <div class="card-text mb-2"><%= post.description %></div>
+  </div>
+</div>
+<% }) %>
