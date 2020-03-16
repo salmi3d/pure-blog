@@ -1,4 +1,6 @@
 const mongoose = require('mongoose')
+const marked = require('marked')
+const slugify = require('slugify')
 
 module.exports = class PostsDAO {
 
@@ -18,7 +20,23 @@ module.exports = class PostsDAO {
       createdAt: {
         type: Date,
         default: Date.now
+      },
+      slug: {
+        type: String,
+        required: true,
+        unique: true
       }
+    })
+
+    postSchema.pre('validate', function (next) {
+      if (this.title) {
+        this.slug = slugify(this.title, {
+          lower: true,
+          strict: true
+        })
+      }
+
+      next()
     })
 
     if (mongoose.models && mongoose.models.Post) {
@@ -50,6 +68,15 @@ module.exports = class PostsDAO {
     try {
       const _id = mongoose.Types.ObjectId(id)
       return await PostsDAO.getPostModel().findById(_id)
+    } catch (error) {
+      console.log(error)
+      return null
+    }
+  }
+
+  static async getPostBySlug(slug) {
+    try {
+      return await PostsDAO.getPostModel().findOne({ slug })
     } catch (error) {
       console.log(error)
       return null

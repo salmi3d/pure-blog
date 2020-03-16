@@ -44,11 +44,24 @@ module.exports = class PostsController {
     })
   }
 
+  static async apiGetPostBySlug(req, res, next) {
+    const post = await PostsDAO.getPostBySlug(req.params.slug)
+
+    if (!post) {
+      res.redirect('/')
+    }
+
+    res.render('layout', {
+      view: 'show_post',
+      post
+    })
+  }
+
   static async apiAddPost(req, res, next) {
     const post = await PostsDAO.addPost({ ...req.body })
 
     if (post) {
-      res.redirect(`/posts/${post._id}`)
+      res.redirect(`/posts/${post.slug}`)
     }
 
     res.render('layout', {
