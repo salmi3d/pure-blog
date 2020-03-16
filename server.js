@@ -1,5 +1,6 @@
 require("dotenv").config()
 const express = require('express')
+const path = require('path')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const cors = require('cors')
@@ -20,10 +21,11 @@ mongoose.connect(process.env.DB_URI, {
   useCreateIndex: true
 })
 
+app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs')
 
-app.use('/posts', posts)
-app.use('/', (req, res) => res.redirect('/posts'))
+app.use('/posts', posts.router)
+app.use('/', posts.index)
 app.use("*", (req, res) => res.status(404).json({ error: "not found" }))
 
 app.listen(process.env.PORT || 3000)

@@ -13,4 +13,6 @@ router
   .get(PostsCtrl.apiGetPosts)
   .post(PostsCtrl.apiAddPost, PostsCtrl.apiSavePostAndRedirect())
 
-module.exports = router
+const index = PostsCtrl.apiGetPosts
+
+module.exports = { router, index }
