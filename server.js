@@ -4,6 +4,7 @@ const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const morgan = require('morgan')
+const methodOverride = require('method-override')
 const posts = require('./api/posts.route')
 const app = express()
 
@@ -11,6 +12,7 @@ app.use(cors())
 process.env.NODE_ENV !== "production" && app.use(morgan("dev"))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(methodOverride('_method'))
 
 mongoose.connect(process.env.DB_URI, {
   useNewUrlParser: true,

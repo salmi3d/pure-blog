@@ -52,8 +52,8 @@ module.exports = class PostsDAO {
       return await PostModel.find().sort({
         createdAt: -1
       })
-    } catch (error) {
-      console.log(error)
+    } catch (e) {
+      console.error(e)
       return []
     }
   }
@@ -68,8 +68,8 @@ module.exports = class PostsDAO {
     try {
       const _id = mongoose.Types.ObjectId(id)
       return await PostsDAO.getPostModel().findById(_id)
-    } catch (error) {
-      console.log(error)
+    } catch (e) {
+      console.error(e)
       return null
     }
   }
@@ -77,8 +77,8 @@ module.exports = class PostsDAO {
   static async getPostBySlug(slug) {
     try {
       return await PostsDAO.getPostModel().findOne({ slug })
-    } catch (error) {
-      console.log(error)
+    } catch (e) {
+      console.error(e)
       return null
     }
   }
@@ -88,9 +88,19 @@ module.exports = class PostsDAO {
 
     try {
       return await newPost.save()
-    } catch (error) {
-      console.log(error)
+    } catch (e) {
+      console.error(e)
       return null
+    }
+  }
+
+  static async deletePost(id) {
+    try {
+      const _id = mongoose.Types.ObjectId(id)
+      return await PostsDAO.getPostModel().findByIdAndDelete(_id)
+    } catch (e) {
+      console.error(`Error occurred while deleting post, ${e}`)
+      return { error: e }
     }
   }
 

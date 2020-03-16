@@ -3,6 +3,7 @@ const PostsCtrl = require('./posts.controller')
 
 router.route('/add').get(PostsCtrl.apiUpsertPost)
 router.route('/:slug').get(PostsCtrl.apiGetPostBySlug)
+router.route('/:id').delete(PostsCtrl.apiDeletePost)
 
 router
   .route('/')

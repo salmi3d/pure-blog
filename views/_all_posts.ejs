@@ -10,6 +10,13 @@
     </div>
     <div class="card-text mb-2"><%= post.description %></div>
     <a class="btn btn-info" href="/posts/<%= post.slug %>">Details</a>
+    <form
+      class="d-inline"
+      method="POST"
+      action="/posts/<%= post.id %>?_method=DELETE"
+    >
+      <button class="btn btn-danger">Remove</button>
+    </form>
   </div>
 </div>
 <% }) %>

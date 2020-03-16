@@ -68,7 +68,20 @@ module.exports = class PostsController {
       view: 'upsert_post',
       post
     })
+  }
 
+  static async apiDeletePost(req, res, next) {
+    try {
+      const deleteResult = await PostsDAO.deletePost(req.params.id)
+      var { error } = deleteResult
+      if (error) {
+        res.status(500).json({ error })
+        return
+      }
+      res.redirect('/')
+    } catch (e) {
+      res.status(500).json(e)
+    }
   }
 
 }
