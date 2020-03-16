@@ -16,7 +16,8 @@ app.use(methodOverride('_method'))
 
 mongoose.connect(process.env.DB_URI, {
   useNewUrlParser: true,
-  useUnifiedTopology: true
+  useUnifiedTopology: true,
+  useCreateIndex: true
 })
 
 app.set('view engine', 'ejs')

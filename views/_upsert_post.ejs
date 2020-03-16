@@ -1,6 +1,9 @@
-<h1 class="mb-4">Add Post</h1>
+<h1 class="mb-4"><%= post.title ? 'Edit' : 'Add' %> Post</h1>
 
-<form method="POST" action="/posts">
+<form
+  method="POST"
+  action="/posts<%= post.title ? `/${post._id}?_method=PUT` : '' %>"
+>
   <div class="form-group">
     <label class="w-100">
       Title

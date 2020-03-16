@@ -1,6 +1,8 @@
 const mongoose = require('mongoose')
 const marked = require('marked')
 const slugify = require('slugify')
+const { JSDOM } = require('jsdom')
+const dompurify = require('dompurify')(new JSDOM().window)
 
 module.exports = class PostsDAO {
 
@@ -9,6 +11,11 @@ module.exports = class PostsDAO {
       title: {
         type: String,
         required: true
+      },
+      slug: {
+        type: String,
+        required: true,
+        unique: true
       },
       description: {
         type: String
@@ -21,10 +28,9 @@ module.exports = class PostsDAO {
         type: Date,
         default: Date.now
       },
-      slug: {
+      sanitizedHtml: {
         type: String,
-        required: true,
-        unique: true
+        required: true
       }
     })
 
@@ -34,6 +40,10 @@ module.exports = class PostsDAO {
           lower: true,
           strict: true
         })
+      }
+
+      if (this.markdown) {
+        this.sanitizedHtml = dompurify.sanitize(marked(this.markdown))
       }
 
       next()
@@ -58,15 +68,10 @@ module.exports = class PostsDAO {
     }
   }
 
-  static createPost(post) {
-    const PostModel = PostsDAO.getPostModel()
-
-    return new PostModel(post)
-  }
-
   static async getPostById(id) {
     try {
       const _id = mongoose.Types.ObjectId(id)
+
       return await PostsDAO.getPostModel().findById(_id)
     } catch (e) {
       console.error(e)
@@ -83,13 +88,17 @@ module.exports = class PostsDAO {
     }
   }
 
-  static async addPost(post) {
-    const newPost = PostsDAO.createPost(post)
+  static createPost(post) {
+    const PostModel = PostsDAO.getPostModel()
 
+    return new PostModel(post)
+  }
+
+  static async savePost(post) {
     try {
-      return await newPost.save()
+      return await post.save()
     } catch (e) {
-      console.error(e)
+      console.error(`Unable to save post: ${e}`)
       return null
     }
   }

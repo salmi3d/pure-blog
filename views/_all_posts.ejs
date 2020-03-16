@@ -1,5 +1,5 @@
 <h1 class="mb-4">Blog Posts</h1>
-<a href="/posts/add" class="btn btn-primary">Add Post</a>
+<a href="/posts/add" class="btn btn-success">Add Post</a>
 
 <% posts.forEach(post => {%>
 <div class="card mt-4">
@@ -10,6 +10,7 @@
     </div>
     <div class="card-text mb-2"><%= post.description %></div>
     <a class="btn btn-info" href="/posts/<%= post.slug %>">Details</a>
+    <a class="btn btn-warning" href="/posts/edit/<%= post.id %>">Edit</a>
     <form
       class="d-inline"
       method="POST"

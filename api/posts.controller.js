@@ -31,19 +31,6 @@ module.exports = class PostsController {
     })
   }
 
-  static async apiGetPostById(req, res, next) {
-    const post = await PostsDAO.getPostById(req.params.id)
-
-    if (!post) {
-      res.redirect('/')
-    }
-
-    res.render('layout', {
-      view: 'show_post',
-      post
-    })
-  }
-
   static async apiGetPostBySlug(req, res, next) {
     const post = await PostsDAO.getPostBySlug(req.params.slug)
 
@@ -58,22 +45,37 @@ module.exports = class PostsController {
   }
 
   static async apiAddPost(req, res, next) {
-    const post = await PostsDAO.addPost({ ...req.body })
+    req.post = PostsDAO.createPost({ ...req.body })
+    next()
+  }
 
-    if (post) {
-      res.redirect(`/posts/${post.slug}`)
+  static async apiUpdatePost(req, res, next) {
+    req.post = await PostsDAO.getPostById(req.params.id)
+    next()
+  }
+
+  static apiSavePostAndRedirect() {
+    return async (req, res) => {
+      let post = req.post
+      post.title = req.body.title
+      post.description = req.body.description
+      post.markdown = req.body.markdown
+      try {
+        post = await PostsDAO.savePost(post)
+        res.redirect(`/posts/${post.slug}`)
+      } catch (e) {
+        res.render('layout', {
+          view: 'upsert_post',
+          post
+        })
+      }
     }
-
-    res.render('layout', {
-      view: 'upsert_post',
-      post
-    })
   }
 
   static async apiDeletePost(req, res, next) {
     try {
       const deleteResult = await PostsDAO.deletePost(req.params.id)
-      var { error } = deleteResult
+      const { error } = deleteResult
       if (error) {
         res.status(500).json({ error })
         return
