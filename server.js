@@ -20,24 +20,7 @@ mongoose.connect(process.env.DB_URI, {
 app.set('view engine', 'ejs')
 
 app.use('/posts', posts)
-app.use('/', (req, res) => {
-  const posts = [
-    {
-      title: 'Test article',
-      createdAt: new Date(),
-      description: 'Test desc'
-    },
-    {
-      title: 'Test article2',
-      createdAt: new Date(),
-      description: 'Test desc2'
-    }
-  ]
-  res.render('layout', {
-    view: 'all_posts',
-    posts
-  })
-})
+app.use('/', (req, res) => res.redirect('/posts'))
 app.use("*", (req, res) => res.status(404).json({ error: "not found" }))
 
-app.listen(process.env.PORT)
+app.listen(process.env.PORT || 3000)

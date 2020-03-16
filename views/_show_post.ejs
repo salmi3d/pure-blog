@@ -1,0 +1,5 @@
+<h1 class="mt-3 mb-1"><%= post.title %></h1>
+<div class="text-muted mb-2"><%= post.createdAt.toLocaleDateString() %></div>
+<a href="/" class="btn btn-secondary">All Posts</a>
+<a href="/posts/edit/<%= post._id %>" class="btn btn-info">Edit</a>
+<div class="mt-3"><%= post.markdown %></div>

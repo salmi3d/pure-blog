@@ -9,6 +9,7 @@
       <%= post.createdAt.toLocaleDateString() %>
     </div>
     <div class="card-text mb-2"><%= post.description %></div>
+    <a class="btn btn-info" href="/posts/<%= post._id %>">Details</a>
   </div>
 </div>
 <% }) %>

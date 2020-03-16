@@ -4,19 +4,28 @@
   <div class="form-group">
     <label class="w-100">
       Title
-      <input required class="form-control" name="title" />
+      <input
+        required
+        value="<%= post.title %>"
+        class="form-control"
+        name="title"
+      />
     </label>
   </div>
   <div class="form-group">
     <label class="w-100">
       Description
-      <textarea name="description" class="form-control"></textarea>
+      <textarea name="description" class="form-control">
+<%= post.description %></textarea
+      >
     </label>
   </div>
   <div class="form-group">
     <label class="w-100">
       Markdown
-      <textarea rows="6" name="markdown" class="form-control"></textarea>
+      <textarea required rows="6" name="markdown" class="form-control">
+<%= post.markdown %></textarea
+      >
     </label>
   </div>
   <button type="submit" class="btn btn-primary">Save</button>
