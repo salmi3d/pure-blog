@@ -1,6 +1,6 @@
-# pure-blog
+# 📝 pure-blog
 
-Simple markdown blog written with Node.js, Express, Bootstrap and MongoDB
+Simple markdown blog is built with Node.js, Express, Bootstrap and MongoDB
 
 ## Demo
 
@@ -18,7 +18,7 @@ yarn install
 yarn dev
 ```
 
-### Run for production
+## Run for production
 
 ```
 yarn start
